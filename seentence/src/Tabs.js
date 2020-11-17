@@ -2,17 +2,15 @@ import { Card, CardContent, Typography } from "@material-ui/core";
 import React from "react";
 import "./Tabs.css";
 
-
-function Tabs(word, active, ...props) {
-    return (
-        <Card className={`tabs ${active && "tabs--selected"}`} onClick={props.onClick}>
-        <CardContent>
-      <Typography className="tabs__title" color="textSecondary">
-          {word}
-        </Typography>
-      </CardContent>
-    </Card>
-    )
+function Tabs({ value, active, ...props }) {
+  console.log({ value });
+  return (
+    <div className="tabs">
+      {value.map((word, i) => (
+        <h1 key={i}>{word}</h1>
+      ))}
+    </div>
+  );
 }
 
-export default Tabs
+export default Tabs;

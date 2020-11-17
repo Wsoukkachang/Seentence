@@ -41,14 +41,11 @@ const App = () => {
           <input type="submit" value="Submit" />
         </form>
       </div>
+
       <div>
-        {/* <Tabs/> */}
-        {spliceValue.map((word) => (
-          <h1>{spliceValue.word}</h1>
-        ))}
+        <Tabs value={spliceValue} />
       </div>
 
-      <h1 className="tabs">This is sentence word tabs.</h1>
       <h1>This is image result container.</h1>
       <h1>This is video result container.</h1>
     </div>
