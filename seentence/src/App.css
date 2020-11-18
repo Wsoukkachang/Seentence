@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: #f5f6fa;
+  background-color: #f2eee2;
 }
 .app {
   display: flex;
@@ -16,13 +16,20 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 20px;
+}
+
+.logoImg {
+  object-fit: cover;
+  height: 150px;
 }
 
 .yourSentence {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  font-size: 2rem !important;
+  font-weight: bold;
   padding: 20px;
 }
 

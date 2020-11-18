@@ -63,11 +63,13 @@ const App = () => {
   return (
     <div className="App">
       <div className="header">
-        <h1>SEENTENCE</h1>
+        <div>
+          <img className="logoImg" src="https://i.imgur.com/RpnCtls.png"></img>
+        </div>
         <div>
           <form onSubmit={handleSubmit}>
             <label>
-              Enter sentence:
+              <div>Enter sentence:</div>
               <input
                 type="text"
                 value={search}
