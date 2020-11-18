@@ -19,3 +19,15 @@ body {
   justify-content: space-between;
   padding: 20px;
 }
+
+.yourSentence {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}

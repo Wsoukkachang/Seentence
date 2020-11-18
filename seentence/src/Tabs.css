@@ -1,6 +1,11 @@
 .tab {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+/* makes margin around all cards */
+.MuiCard-root {
+  margin: 10px;
+  cursor: pointer;
 }

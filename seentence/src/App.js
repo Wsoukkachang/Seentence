@@ -1,4 +1,5 @@
 import React, { setState, useState, useEffect } from "react";
+import { GridList, Card, CardContent, Typography } from "@material-ui/core";
 import Tabs from "./Tabs";
 import SearchBar from "material-ui-search-bar";
 import axios from "axios";
@@ -13,12 +14,6 @@ const App = () => {
   const [searchWordInfo, setSearchWordInfo] = useState({});
   const [wordDatabase, setWordDatabase] = useState([]);
 
-  // splice sentence from search
-  const spliceSentence = async () => {
-    console.log("THIS IS spliceValue", spliceValue);
-    spliceValue.map((word) => onSearchSubmit(word));
-  };
-
   // handles submit from search bar
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +24,12 @@ const App = () => {
 
     spliceSentence();
     // alert(`Submitting search: ${search}`);
+  };
+
+  // splice sentence from search
+  const spliceSentence = async () => {
+    console.log("THIS IS spliceValue", spliceValue);
+    spliceValue.map((word) => onSearchSubmit(word));
   };
 
   // gets photos from Unsplash API for term/word
@@ -79,9 +80,10 @@ const App = () => {
           </form>
         </div>
       </div>
-      <div>Your sentence: {search}</div>
 
-      <div>
+      <Typography className="yourSentence">Your sentence: {search}</Typography>
+
+      <div className="tabsContainer">
         <Tabs value={spliceValue} wordDatabase={wordDatabase} />
       </div>
 
