@@ -6,26 +6,34 @@ import {} from "@material-ui/core";
 import "./App.css";
 
 const App = () => {
+  const [isLoading, setLoading] = useState(false);
   const [value, setValue] = useState("");
   const [spliceValue, setSpliceValue] = useState([]);
   const [search, setInput] = useState("");
   const [searchWordInfo, setSearchWordInfo] = useState({});
   const [wordDatabase, setWordDatabase] = useState([]);
 
-  // handles search bar and split words
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSpliceValue(search.split(" "));
-    console.log(e);
-
-    console.log("THIS IS searchValue", search);
+  // splice sentence from search
+  const spliceSentence = async () => {
     console.log("THIS IS spliceValue", spliceValue);
-    alert(`Submitting search: ${search}`);
     spliceValue.map((word) => onSearchSubmit(word));
   };
 
-  const onSearchSubmit = (term) => {
-    axios
+  // handles submit from search bar
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let wordDatabase = [""];
+    setSpliceValue(search.split(" "));
+
+    console.log("THIS IS searchValue", search);
+
+    spliceSentence();
+    // alert(`Submitting search: ${search}`);
+  };
+
+  // gets photos from Unsplash API for term/word
+  const onSearchSubmit = async (term) => {
+    const data = await axios
       .get("https://api.unsplash.com/search/photos", {
         params: { query: term },
         headers: {
@@ -35,13 +43,21 @@ const App = () => {
       })
       .then((res) => {
         const results = res.data;
-        setSearchWordInfo({ results });
+        // setSearchWordInfo({ results });
         wordDatabase.push({ term, ...results });
+
+        //set loading to true so can render Tabs component correctly
+        setLoading(false);
       });
+    // return data;
     console.log("THIS IS TERM", term);
-    console.log("THIS IS SERACHWORLDINFO", searchWordInfo);
+    // console.log("THIS IS SERACHWORLDINFO", searchWordInfo);
     console.log("THIS IS wordDatabase", wordDatabase);
   };
+
+  if (isLoading) {
+    return <div className="App">Loading...</div>;
+  }
 
   return (
     <div className="App">
@@ -63,13 +79,14 @@ const App = () => {
           </form>
         </div>
       </div>
+      <div>Your sentence: {search}</div>
 
       <div>
         <Tabs value={spliceValue} wordDatabase={wordDatabase} />
       </div>
 
-      <h1>This is image result container.</h1>
-      <h1>This is video result container.</h1>
+      {/* <h1>This is image result container.</h1>
+      <h1>This is video result container.</h1> */}
     </div>
   );
 };
