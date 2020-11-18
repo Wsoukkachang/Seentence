@@ -1,14 +1,35 @@
-import React from 'react'
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-// import SearchIcon from '@material-ui/icons/Search';
-import {SearchBar} from "@material-ui/core";
-import "./SearchBar.css";
+import React from "react";
 
-function SearchBar() {
+class Searchbar extends React.Component {
+  state = {
+    term: "Default text",
+  };
+  handleChange = (event) => {
+    this.setState({
+      term: event.target.value,
+    });
+  };
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.handleFormSubmit(this.state.term);
+  };
+
+  render() {
     return (
-    )
+      <div className="search-bar ui segment">
+        <form onSubmit={this.handleSubmit} className="ui form">
+          <div className="field">
+            <label htmlFor="video-search">Video Search</label>
+            <input
+              onChange={this.handleChange}
+              name="video-search"
+              type="text"
+              value={this.state.term}
+            />
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
-
-export default SearchBar;
+export default Searchbar;

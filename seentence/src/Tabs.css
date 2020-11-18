@@ -1,12 +1,35 @@
-.tab {
-  display: flex;
+.MuiCardActionArea-root {
+  width: 100%;
+  display: flex !important;
+  /* align-items: stretch !important; */
+  align-content: stretch !important;
+  padding: 20px !important;
+  flex-grow: 1 !important;
+}
+
+.tabs {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.tab__card {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.tab__content {
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center;
-  justify-content: space-between;
 }
 
 /* makes margin around all cards */
 .MuiCard-root {
-  margin: 10px;
+  display: flex !important;
+  flex-direction: column !important;
   cursor: pointer;
   box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
 }
