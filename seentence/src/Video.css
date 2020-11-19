@@ -13,3 +13,8 @@
   display: flex;
   justify-content: center;
 }
+
+.video__player {
+  height: 300px;
+  width: 600px;
+}

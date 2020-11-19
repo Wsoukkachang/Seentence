@@ -61,4 +61,5 @@ body {
 .video__container {
   display: flex;
   justify-content: center;
+  margin: 20px;
 }

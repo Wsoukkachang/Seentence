@@ -265,19 +265,20 @@ const App = () => {
       {videoReady === true ? (
         <div className="video__container" style={{ marginTop: "1em" }}>
           <div className="video__grid">
-            <Card variant="outlined">
-              <div className="video__row">
-                <div className="eleven wide column">
-                  <VideoDetail video={selectedVideo} />
-                </div>
+            <div className="video__row">
+              <div className="eleven wide column">
+                <VideoDetail video={selectedVideo} />
+              </div>
+
+              <Card variant="outlined">
                 <div className="five wide column">
                   <VideoList
                     handleVideoSelect={handleVideoSelect}
                     videos={videos}
                   />
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
         </div>
       ) : (
