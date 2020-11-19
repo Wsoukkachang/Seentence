@@ -8,3 +8,8 @@
   max-width: 200px;
   max-height: 250px;
 }
+
+.video__embed {
+  display: flex;
+  justify-content: center;
+}

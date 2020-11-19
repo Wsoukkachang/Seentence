@@ -1,5 +1,6 @@
 * {
   margin: 0;
+  /* outline: 1px solid red; */
 }
 
 body {
@@ -53,4 +54,11 @@ body {
 
 .imagesLabel {
   padding-right: 20px;
+}
+
+/* video css */
+
+.video__container {
+  display: flex;
+  justify-content: center;
 }

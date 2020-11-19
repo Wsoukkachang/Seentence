@@ -1,15 +1,17 @@
 import React from "react";
+import "./Video.css";
 
 const VideoDetail = ({ video }) => {
   if (!video) {
-    return <div>Loading ...</div>;
+    return <div>You need to search something.</div>;
   }
 
   const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
   console.log(typeof video);
+
   return (
     <div>
-      <div className="ui embed">
+      <div className="video__embed">
         <iframe src={videoSrc} allowFullScreen title="Video player" />
       </div>
       <div className="ui segment">

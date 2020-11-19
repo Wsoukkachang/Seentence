@@ -1,34 +1,29 @@
-import React, { setState, useState, useEffect } from "react";
-import {
-  FormControlLabel,
-  Switch,
-  GridList,
-  Card,
-  CardContent,
-  Typography,
-} from "@material-ui/core";
+import axios from "axios";
+import youtube from "./apis/youtube";
+import React, { useState, useEffect } from "react";
+import { Card, FormControlLabel, Switch, Typography } from "@material-ui/core";
 import Tabs from "./Tabs";
 // import SearchBar from "material-ui-search-bar";
-import axios from "axios";
-import SearchBar from "./SearchBar";
-import youtube from "./apis/youtube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import "./App.css";
 
 const App = () => {
-  const [isLoading, setLoading] = useState(false);
+  // search variables
+  // const [isLoading, setLoading] = useState(false);
   const [spliceValue, setSpliceValue] = useState([]);
   const [search, setInput] = useState("");
   const [wordDatabase, setWordDatabase] = useState([]);
 
+  // speech variables
   const synthRef = React.useRef(window.speechSynthesis);
   const [langVoices, setLangAVoices] = useState([]);
   const [langAVoice, setLangAVoice] = useState(null);
 
+  //switches variables
   const [switchState, setSwitchState] = useState({
-    checkedA: true,
-    checkedB: false,
+    images: true,
+    videos: false,
   });
 
   const [voiceState, setVoiceState] = useState({
@@ -37,43 +32,57 @@ const App = () => {
   });
 
   const [tabsRender, setTabsRender] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  //video variables
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  //onMount
-  // useEffect(() => {
-  //   console.log(voiceState);
-  // });
-
+  // onMount, set voice to female
   useEffect(() => {
-    setTimeout(() => {
-      const voices = synthRef.current
-        .getVoices()
-        .filter((voice) => !voice.name.includes("Google"));
-      console.log(voices);
+    const voices = synthRef.current
+      .getVoices()
+      .filter((voice) => !voice.name.includes("Google"));
+    // console.log(voices);
 
-      const filteredA = voices.filter(
-        (voice) => voice.lang.substr(0, 2) === "en"
-      );
-      setLangAVoices(filteredA);
-      console.log(voiceState);
+    const filteredA = voices.filter(
+      (voice) => voice.lang.substr(0, 2) === "en"
+    );
+    setLangAVoices(filteredA);
+    // console.log(voiceState);
 
-      if (voiceState.female === true && voiceState.male === false) {
-        setLangAVoice(filteredA[1]);
-      } else {
-        setLangAVoice(filteredA[0]);
-      }
-
-      // console.log(synthRef.current);
-    }, 10);
+    if (voiceState.female === true && voiceState.male === false) {
+      setLangAVoice(filteredA[1]);
+    } else {
+      setLangAVoice(filteredA[0]);
+    }
   }, []);
 
   // function to make computer speak word
   const say = (word) => {
-    console.log("This is speech", word);
+    // console.log("This is speech", word);
     const utter = new SpeechSynthesisUtterance(word);
     utter.voice = langAVoice;
     synthRef.current.speak(utter);
+  };
+
+  //on submit of search, show video results
+  const handleVideoSubmit = async (termWord) => {
+    try {
+      const response = await youtube.get("/search", {
+        params: {
+          q: termWord,
+        },
+      });
+
+      console.log("CONFIRM VIDEO TERM", termWord);
+      setVideos(response.data.items);
+      console.log("CONFIRM VIDEO SET SEARCH", response.data.items);
+    } catch (err) {
+      console.error(err);
+    }
+
+    // setVideoReady(true);
   };
 
   // handles submit from search bar
@@ -82,9 +91,9 @@ const App = () => {
     setSpliceValue(search.split(" "));
 
     console.log("THIS IS searchValue", search);
-
+    handleVideoSubmit(search);
     spliceSentence();
-    console.log("CONFIRM VIDEO SEARCH", search);
+
     // alert(`Submitting search: ${search}`);
   };
 
@@ -106,12 +115,13 @@ const App = () => {
       },
     });
 
+    // console.log("THIS IS TERM", term);
     let data = response.data;
+
+    //push new word data into database
     wordDatabase.push({ term, ...data });
 
-    // return data;
-    console.log("THIS IS TERM", term);
-    console.log("THIS IS wordDatabase", wordDatabase);
+    // console.log("THIS IS wordDatabase", wordDatabase);
   };
 
   // if (isLoading) {
@@ -128,23 +138,18 @@ const App = () => {
     const voices = synthRef.current
       .getVoices()
       .filter((voice) => !voice.name.includes("Google"));
-    console.log(voices);
 
     const filteredA = voices.filter(
       (voice) => voice.lang.substr(0, 2) === "en"
     );
     setLangAVoices(filteredA);
-    console.log(voiceState);
 
+    // switch to Male if clicked
     if (voiceState.female === true && voiceState.male === false) {
       setLangAVoice(filteredA[0]);
     } else {
       setLangAVoice(filteredA[1]);
     }
-
-    console.log(synthRef.current);
-
-    // console.log("VoiceState", voiceState);
   };
 
   // switch click from Images to Video
@@ -153,17 +158,12 @@ const App = () => {
       ...switchState,
       [event.target.name]: event.target.checked,
     });
-  };
 
-  //on submit of search, show video results
-  const handleVideoSubmit = async (termFromSearchBar) => {
-    const response = await youtube.get("/search", {
-      params: {
-        q: termFromSearchBar,
-      },
-    });
-    setVideos(response.data.items);
-    console.log("CONFIRM VIDEO SEARCH", response.data.items);
+    if (switchState.images === true && switchState.videos === false) {
+      setVideoReady(true);
+    } else {
+      setVideoReady(false);
+    }
   };
 
   const handleVideoSelect = (video) => {
@@ -177,10 +177,7 @@ const App = () => {
           <img className="logoImg" src="https://i.imgur.com/RpnCtls.png"></img>
         </div>
         <div>
-          <form
-            handleFormSubmit={handleVideoSubmit({ search })}
-            onSubmit={handleSubmit}
-          >
+          <form onSubmit={handleSubmit}>
             <label>
               <div>Enter sentence:</div>
 
@@ -214,7 +211,7 @@ const App = () => {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={switchState.male}
+                    checked={voiceState.male}
                     onChange={switchClickedVoice}
                     name="male"
                   />
@@ -234,9 +231,9 @@ const App = () => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={switchState.checkedB}
+                  checked={switchState.videos}
                   onChange={switchClicked}
-                  name="checkedB"
+                  name="videos"
                 />
               }
               label="Videos"
@@ -245,23 +242,45 @@ const App = () => {
         </Typography>
       </div>
 
-      {/* <div className="ui container" style={{ marginTop: "1em" }}>
-        <div className="ui grid">
-          <div className="ui row">
-            <div className="eleven wide column">
-              <VideoDetail video={selectedVideo} />
-            </div>
-            <div className="five wide column">
-              <VideoList
-                handleVideoSelect={handleVideoSelect}
-                videos={videos}
-              />
+      {/* {videoReady === true ? (
+        <div className="ui container" style={{ marginTop: "1em" }}>
+          <div className="ui grid">
+            <div className="ui row">
+              <div className="eleven wide column">
+                <VideoDetail video={selectedVideo} />
+              </div>
+              <div className="five wide column">
+                <VideoList
+                  handleVideoSelect={handleVideoSelect}
+                  videos={videos}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div> */}
+      ) : (
+        <div></div>
+      )} */}
 
-      {tabsRender === true ? (
+      {videoReady === true ? (
+        <div className="video__container" style={{ marginTop: "1em" }}>
+          <div className="video__grid">
+            <Card variant="outlined">
+              <div className="video__row">
+                <div className="eleven wide column">
+                  <VideoDetail video={selectedVideo} />
+                </div>
+                <div className="five wide column">
+                  <VideoList
+                    handleVideoSelect={handleVideoSelect}
+                    videos={videos}
+                  />
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      ) : (
         <div className="tabsContainer">
           {spliceValue.map((word, i) => (
             <div onClick={() => say(word)}>
@@ -275,8 +294,6 @@ const App = () => {
             </div>
           ))}
         </div>
-      ) : (
-        <div></div>
       )}
 
       {/* <h1>This is image result container.</h1>
