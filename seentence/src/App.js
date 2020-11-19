@@ -21,6 +21,11 @@ const App = () => {
   const [spliceValue, setSpliceValue] = useState([]);
   const [search, setInput] = useState("");
   const [wordDatabase, setWordDatabase] = useState([]);
+
+  const synthRef = React.useRef(window.speechSynthesis);
+  const [langVoices, setLangAVoices] = useState([]);
+  const [langAVoice, setLangAVoice] = useState(null);
+
   const [switchState, setSwitchState] = useState({
     checkedA: true,
     checkedB: false,
@@ -30,14 +35,46 @@ const App = () => {
     female: true,
     male: false,
   });
+
   const [tabsRender, setTabsRender] = useState(false);
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   //onMount
+  // useEffect(() => {
+  //   console.log(voiceState);
+  // });
+
   useEffect(() => {
-    console.log(voiceState);
-  });
+    setTimeout(() => {
+      const voices = synthRef.current
+        .getVoices()
+        .filter((voice) => !voice.name.includes("Google"));
+      console.log(voices);
+
+      const filteredA = voices.filter(
+        (voice) => voice.lang.substr(0, 2) === "en"
+      );
+      setLangAVoices(filteredA);
+      console.log(voiceState);
+
+      if (voiceState.female === true && voiceState.male === false) {
+        setLangAVoice(filteredA[1]);
+      } else {
+        setLangAVoice(filteredA[0]);
+      }
+
+      // console.log(synthRef.current);
+    }, 10);
+  }, []);
+
+  // function to make computer speak word
+  const say = (word) => {
+    console.log("This is speech", word);
+    const utter = new SpeechSynthesisUtterance(word);
+    utter.voice = langAVoice;
+    synthRef.current.speak(utter);
+  };
 
   // handles submit from search bar
   const handleSubmit = (e) => {
@@ -87,7 +124,27 @@ const App = () => {
       ...voiceState,
       [event.target.name]: event.target.checked,
     });
-    console.log("VoiceState", voiceState);
+
+    const voices = synthRef.current
+      .getVoices()
+      .filter((voice) => !voice.name.includes("Google"));
+    console.log(voices);
+
+    const filteredA = voices.filter(
+      (voice) => voice.lang.substr(0, 2) === "en"
+    );
+    setLangAVoices(filteredA);
+    console.log(voiceState);
+
+    if (voiceState.female === true && voiceState.male === false) {
+      setLangAVoice(filteredA[0]);
+    } else {
+      setLangAVoice(filteredA[1]);
+    }
+
+    console.log(synthRef.current);
+
+    // console.log("VoiceState", voiceState);
   };
 
   // switch click from Images to Video
@@ -122,7 +179,7 @@ const App = () => {
         <div>
           <form
             handleFormSubmit={handleVideoSubmit({ search })}
-            onSubmit={() => handleSubmit}
+            onSubmit={handleSubmit}
           >
             <label>
               <div>Enter sentence:</div>
@@ -188,7 +245,7 @@ const App = () => {
         </Typography>
       </div>
 
-      <div className="ui container" style={{ marginTop: "1em" }}>
+      {/* <div className="ui container" style={{ marginTop: "1em" }}>
         <div className="ui grid">
           <div className="ui row">
             <div className="eleven wide column">
@@ -202,15 +259,21 @@ const App = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {tabsRender === true ? (
         <div className="tabsContainer">
-          <Tabs
-            value={spliceValue}
-            wordDatabase={wordDatabase}
-            voice={voiceState}
-          />
+          {spliceValue.map((word, i) => (
+            <div onClick={() => say(word)}>
+              <Tabs
+                key={i}
+                i={i}
+                className={word}
+                word={word}
+                wordDatabase={wordDatabase}
+              />
+            </div>
+          ))}
         </div>
       ) : (
         <div></div>

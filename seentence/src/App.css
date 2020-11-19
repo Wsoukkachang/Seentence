@@ -46,6 +46,7 @@ body {
 
 .tabsContainer {
   display: flex;
+  justify-content: space-around;
   /* align-items: stretch; */
   padding: 20px;
 }
