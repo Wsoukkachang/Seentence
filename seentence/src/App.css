@@ -13,12 +13,23 @@ body {
   padding: 20px;
 }
 
+.marginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
 .header {
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-content: space-between;
   justify-content: space-around;
-  padding: 20px;
+  padding: 25px;
+  width: 100%;
 }
 
 .logoImg {
@@ -47,7 +58,7 @@ body {
 
 .tabsContainer {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   /* align-items: stretch; */
   padding: 20px;
 }

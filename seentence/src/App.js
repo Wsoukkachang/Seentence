@@ -10,10 +10,20 @@ import "./App.css";
 
 const App = () => {
   // search variables
-  // const [isLoading, setLoading] = useState(false);
-  const [spliceValue, setSpliceValue] = useState([]);
+  let allWords = [];
+  let termCount = 0; //
+  let imageDatabase = [];
+  // let wordSize = 0; //allWords.length * 4
+  // let dataLength = -1; //length of imageDatabase
+
+  let spliceValue = [];
+  let wordDatabase = [];
   const [search, setInput] = useState("");
-  const [wordDatabase, setWordDatabase] = useState([]);
+  const [wordSize, setWordSize] = useState(0);
+  const [dataLength, setDataLength] = useState(-1);
+  const [tabsRender, setTabsRender] = useState(false);
+  const [dB, setDB] = useState([]);
+  const [wordsArray, setWordsArray] = useState([]);
 
   // speech variables
   const synthRef = React.useRef(window.speechSynthesis);
@@ -31,7 +41,6 @@ const App = () => {
     male: false,
   });
 
-  const [tabsRender, setTabsRender] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
 
   //video variables
@@ -88,22 +97,28 @@ const App = () => {
   // handles submit from search bar
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSpliceValue(search.split(" "));
+    termCount = 0;
+    allWords = [];
+    // setWordCounter(0); // resets counter for each new search
+    wordDatabase = []; // resets database for each new search
+
+    const searchSplice = search.split(" ");
+    allWords = search.split(" "); // splices search result to individual elements (word)
+    spliceValue = searchSplice;
 
     console.log("THIS IS searchValue", search);
     handleVideoSubmit(search);
-    spliceSentence();
+    spliceSentence(searchSplice);
 
     // alert(`Submitting search: ${search}`);
   };
 
   // splice sentence from search
-  const spliceSentence = async () => {
-    console.log("THIS IS spliceValue", spliceValue);
-    spliceValue.map((word) => onSearchSubmit(word));
+  const spliceSentence = async (searchSplice) => {
+    console.log("THIS IS spliceValue in spliceSentence", searchSplice);
+    searchSplice.map((word) => onSearchSubmit(word));
     // setTimeout(alert("Creating your sentence!"), 20000);
     // setTimeout(alert("Words are ready!"), 20000);
-    setTabsRender(true);
   };
 
   // gets photos from Unsplash API for term/word
@@ -115,13 +130,22 @@ const App = () => {
       },
     });
 
-    // console.log("THIS IS TERM", term);
+    console.log("THIS IS TERM", term);
     let data = response.data;
 
     //push new word data into database
     wordDatabase.push({ term, ...data });
 
-    // console.log("THIS IS wordDatabase", wordDatabase);
+    termCount += 1; // add 1 to counter for each term that runs through this function
+    console.log("THIS IS termCount ", termCount);
+    // setWordCounter(termCount * 4);
+    checkCounter(termCount, tabsRender, wordDatabase);
+
+    console.log("THIS IS imageDatabase ", imageDatabase);
+    console.log("This IS tabsRender condition ", tabsRender);
+
+    console.log("THIS IS wordDB length ", wordDatabase.length);
+    console.log("THIS IS spliceValue length ", spliceValue.length);
   };
 
   // if (isLoading) {
@@ -170,99 +194,209 @@ const App = () => {
     setSelectedVideo(video);
   };
 
+  const checkCounter = (termCount, tabsRender, wordDatabase) => {
+    console.log("This is in checkCounter", search);
+    let checkCounterWords = search.split(" ").length * 4;
+    // console.log("This is in checkCounter wc", wordCounter);
+    console.log("This is in checkCounter ccw", checkCounterWords);
+
+    if (termCount > 0 && termCount * 4 === checkCounterWords) {
+      getImageUrls(wordDatabase, spliceValue);
+
+      console.log("This is in checkCounter = allWords length", allWords.length);
+      console.log("This is in checkCounter if = imageDatatbase", imageDatabase);
+      console.log(
+        "This is in checkCounter if = imageDatatbase length",
+        imageDatabase.length
+      );
+      console.log("This is in checkCounter if = allWords", allWords);
+
+      console.log("This is in checkCounter if RAN TABS RENDER ", tabsRender);
+
+      checkAll(imageDatabase, allWords);
+      // console.log("This is sV after", spliceValue);
+      // setTimeout(4000);
+    } else {
+      console.log("This is in checkCounter use effect else", wordsArray);
+    }
+  };
+
+  const checkAll = (imageDatabase, allWords) => {
+    let iDBLength = imageDatabase.length;
+    let tC4 = termCount * 4;
+    let tru = true;
+
+    setDataLength(iDBLength);
+    setWordSize(tC4);
+
+    setTimeout(4000);
+
+    setTabsRender(tru);
+
+    setTimeout(4000);
+
+    console.log("This is in checkCounter if = dataLength", dataLength);
+    console.log("This is in checkCounter if = wordSize", wordSize);
+    console.log("This is in checkCounter if = tabsRender ", tabsRender);
+  };
+
+  // get urls of each word from data received from Unsplash
+  const getImageUrls = (wordDatabase, spliceValue) => {
+    let images = [];
+    let sortedImages = [];
+    let wordsSplice = search.split(" ");
+    setWordsArray(wordsSplice);
+
+    console.log("This is in getImageUrls if = wordsSplice", wordsSplice);
+
+    console.log("This is in getImageUrls if = wordDatabase ", wordDatabase);
+
+    for (let i = 0; i <= wordDatabase.length - 1; i++) {
+      for (let j = 0; j <= 3; j++) {
+        images.push({
+          word: wordDatabase[i].term,
+          thumb: wordDatabase[i].results[j].urls.thumb,
+        });
+      }
+    }
+
+    console.log("This is in getImageUrls if = images", images);
+
+    // this for loop sorts thumb links to words so pictures are always correlated to words -- was getting delays from Unsplash API
+    for (let i = 0; i <= images.length - 1; i++) {
+      for (let j = 0; j <= wordsSplice.length - 1; j++) {
+        if (images[i].word === wordsSplice[j]) {
+          sortedImages.push({
+            words: wordsSplice[j],
+            thumb: images[i].thumb,
+          });
+        }
+      }
+    }
+
+    // console.log("This is imageDB", images);
+    // console.log("This is search", search);
+    // console.log("This is wordsSplice", wordsSplice);
+    console.log("This is SORTED imageDB", sortedImages);
+    imageDatabase = sortedImages;
+    setDB(sortedImages);
+
+    console.log("This is SORTED imageDB = imageDatabase", imageDatabase);
+    console.log("This is SORTED imageDB = dB", dB);
+    // setTimeout(1000);
+    // console.log("This is sV after", spliceValue);
+  };
+
+  const isReady = (wordSize, dataLength, tabsRender) => {
+    return wordSize === dataLength && tabsRender === true;
+  };
+
   return (
     <div className="App">
-      <div className="header">
-        <div>
-          <img className="logoImg" src="https://i.imgur.com/RpnCtls.png"></img>
-        </div>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <label>
-              <div>Enter sentence:</div>
-
-              <input
-                className="search-bar"
-                type="text"
-                value={search}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                }}
-              />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      </div>
-
-      <div>
-        <Typography className="yourSentence">
-          Your sentence: {search}
+      <div className="marginContainer">
+        <div className="header">
           <div>
+            <img
+              className="logoImg"
+              src="https://i.imgur.com/RpnCtls.png"
+            ></img>
+          </div>
+          <div>
+            <form onSubmit={handleSubmit}>
+              <label>
+                <div>Enter sentence:</div>
+
+                <input
+                  className="search-bar"
+                  type="text"
+                  value={search}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                  }}
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+        </div>
+        <div>
+          <Typography className="yourSentence">
+            Your sentence: {search}
             <div>
+              <div>
+                <FormControlLabel
+                  className="imagesLabel"
+                  value="start"
+                  control={<div />}
+                  label="Female"
+                  labelPlacement="start"
+                />
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={voiceState.male}
+                      onChange={switchClickedVoice}
+                      name="male"
+                    />
+                  }
+                  label="Male"
+                />
+              </div>
+
               <FormControlLabel
                 className="imagesLabel"
                 value="start"
                 control={<div />}
-                label="Female"
+                label="Images"
                 labelPlacement="start"
               />
 
               <FormControlLabel
                 control={
                   <Switch
-                    checked={voiceState.male}
-                    onChange={switchClickedVoice}
-                    name="male"
+                    checked={switchState.videos}
+                    onChange={switchClicked}
+                    name="videos"
                   />
                 }
-                label="Male"
+                label="Videos"
               />
             </div>
+          </Typography>
+        </div>
 
-            <FormControlLabel
-              className="imagesLabel"
-              value="start"
-              control={<div />}
-              label="Images"
-              labelPlacement="start"
-            />
+        {videoReady === true &&
+        isReady(wordSize, dataLength, tabsRender) === true ? (
+          <div className="video__container" style={{ marginTop: "1em" }}>
+            <div className="video__grid">
+              <div className="video__row">
+                <div className="eleven wide column">
+                  <VideoDetail video={selectedVideo} />
+                </div>
 
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={switchState.videos}
-                  onChange={switchClicked}
-                  name="videos"
-                />
-              }
-              label="Videos"
-            />
-          </div>
-        </Typography>
-      </div>
-
-      {/* {videoReady === true ? (
-        <div className="ui container" style={{ marginTop: "1em" }}>
-          <div className="ui grid">
-            <div className="ui row">
-              <div className="eleven wide column">
-                <VideoDetail video={selectedVideo} />
-              </div>
-              <div className="five wide column">
-                <VideoList
-                  handleVideoSelect={handleVideoSelect}
-                  videos={videos}
-                />
+                <Card variant="outlined">
+                  <div className="five wide column">
+                    <VideoList
+                      handleVideoSelect={handleVideoSelect}
+                      videos={videos}
+                    />
+                  </div>
+                </Card>
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div></div>
-      )} */}
+        ) : (
+          <div className="tabsContainer">
+            {wordsArray.map((word, i) => (
+              <div key={i} onClick={() => say(word)}>
+                <Tabs key={i} word={word} imageDatabase={dB} />
+              </div>
+            ))}
+          </div>
+        )}
 
-      {videoReady === true ? (
+        {/* {videoReady === true ? (
         <div className="video__container" style={{ marginTop: "1em" }}>
           <div className="video__grid">
             <div className="video__row">
@@ -282,23 +416,12 @@ const App = () => {
           </div>
         </div>
       ) : (
-        <div className="tabsContainer">
-          {spliceValue.map((word, i) => (
-            <div onClick={() => say(word)}>
-              <Tabs
-                key={i}
-                i={i}
-                className={word}
-                word={word}
-                wordDatabase={wordDatabase}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+        <div></div>
+      )} */}
 
-      {/* <h1>This is image result container.</h1>
+        {/* <h1>This is image result container.</h1>
       <h1>This is video result container.</h1> */}
+      </div>
     </div>
   );
 };
