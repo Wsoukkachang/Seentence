@@ -39,6 +39,24 @@ body {
   flex-grow: 1;
 }
 
+/* shrink logo on smaller devices */
+@media only screen and (max-width: 600px) {
+  .logoImg {
+    object-fit: cover;
+    height: 50px;
+    flex-grow: 1;
+  }
+}
+
+/* shrink tabs on smaller devices */
+@media only screen and (max-height: 600px) {
+  /* .logoImg {
+    object-fit: cover;
+    height: 50px;
+    flex-grow: 1;
+  } */
+}
+
 .search-bar input {
   padding-left: 35px;
   color: grey;
