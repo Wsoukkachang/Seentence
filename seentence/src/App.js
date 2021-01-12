@@ -1,12 +1,25 @@
 import axios from "axios";
 import youtube from "./apis/youtube";
 import React, { useState, useEffect } from "react";
-import { Card, FormControlLabel, Switch, Typography } from "@material-ui/core";
+import NavBar from "./NavBar";
+import styled from "styled-components";
+import {
+  Card,
+  FormControlLabel,
+  Switch,
+  Typography,
+  TextField,
+  Button,
+} from "@material-ui/core";
 import Tabs from "./Tabs";
+import Footer from "./Footer";
 // import SearchBar from "material-ui-search-bar";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import "./App.css";
+
+import Popover from "@material-ui/core/Popover";
+import { makeStyles } from "@material-ui/core/styles";
 
 const App = () => {
   // search variables
@@ -46,6 +59,30 @@ const App = () => {
   //video variables
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
+
+  // pop up variables
+  const useStyles = makeStyles((theme) => ({
+    popover: {
+      pointerEvents: "none",
+    },
+    paper: {
+      padding: theme.spacing(2),
+    },
+  }));
+
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  // ------------------------------
 
   // onMount, set voice to female
   useEffect(() => {
@@ -293,6 +330,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <NavBar />
       <div className="marginContainer">
         <div className="header">
           <div>
@@ -302,26 +340,29 @@ const App = () => {
             ></img>
           </div>
           <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="searchColumn">
               <label>
-                <div>Enter sentence:</div>
-
-                <input
+                <TextField
                   className="search-bar"
                   type="text"
+                  label="Enter Sentence:"
+                  variant="outlined"
                   value={search}
                   onChange={(e) => {
                     setInput(e.target.value);
                   }}
                 />
               </label>
-              <input type="submit" value="Submit" />
+              <Button variant="contained" type="submit" value="Submit">
+                Submit
+              </Button>
             </form>
           </div>
         </div>
         <div>
           <Typography className="yourSentence">
-            Your sentence: {search}
+            <h3>Your sentence: {search}</h3>
+
             <div>
               <div>
                 <FormControlLabel
@@ -368,7 +409,14 @@ const App = () => {
 
         {videoReady === true &&
         isReady(wordSize, dataLength, tabsRender) === true ? (
-          <div className="video__container" style={{ marginTop: "1em" }}>
+          <div
+            className="video__container"
+            style={{ marginTop: "1em" }}
+            aria-owns={open ? "mouse-over-popover" : undefined}
+            aria-haspopup="true"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+          >
             <div className="video__grid">
               <div className="video__row">
                 <div className="eleven wide column">
@@ -385,14 +433,62 @@ const App = () => {
                 </Card>
               </div>
             </div>
+            <Popover
+              id="mouse-over-popover"
+              className={classes.popover}
+              classes={{
+                paper: classes.paper,
+              }}
+              open={open}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus
+            >
+              <Typography>Click on the tabs to watch them</Typography>
+            </Popover>
           </div>
         ) : (
-          <div className="tabsContainer">
+          <div
+            className="tabsContainer"
+            aria-owns={open ? "mouse-over-popover" : undefined}
+            aria-haspopup="true"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+          >
             {wordsArray.map((word, i) => (
               <div key={i} onClick={() => say(word)}>
                 <Tabs key={i} word={word} imageDatabase={dB} />
               </div>
             ))}
+            <Popover
+              id="mouse-over-popover"
+              className={classes.popover}
+              classes={{
+                paper: classes.paper,
+              }}
+              open={open}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus
+            >
+              <Typography>Click on the tabs to hear them</Typography>
+            </Popover>
           </div>
         )}
 
@@ -421,6 +517,7 @@ const App = () => {
 
         {/* <h1>This is image result container.</h1>
       <h1>This is video result container.</h1> */}
+        <Footer />
       </div>
     </div>
   );

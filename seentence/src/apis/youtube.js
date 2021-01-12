@@ -1,6 +1,6 @@
 import axios from "axios";
 import { StrictMode } from "react";
-const KEY = "AIzaSyCgdrFE1qx575YLhA_QU4fimGShYQeEUBY";
+const KEY = "AIzaSyD0lvzRhjxlYbOgn0_k7Yq1D5kAZ3V0C-E";
 
 export default axios.create({
   baseURL: "https://www.googleapis.com/youtube/v3",
