@@ -6,4 +6,4 @@ A visual learning tool to help people understand what they are reading faster.
  - Used YouTube API for video searches.
  
 # WIP - hosted on Firebase
-https://seentence.web.app/
+https://seentence2.web.app/
