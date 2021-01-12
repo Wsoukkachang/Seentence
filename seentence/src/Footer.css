@@ -12,5 +12,13 @@
   align-content: center;
   justify-content: space-between;
   width: 90%;
+  padding: 10px;
   /* border: 1px solid yellow; */
+}
+
+@media only screen and (max-width: 600px) {
+  .FooterContainer {
+    padding: 0px !important;
+    /* border: 1px solid yellow; */
+  }
 }

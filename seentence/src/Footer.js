@@ -16,6 +16,10 @@ export default function Footer() {
         © Copyright 2020. All Rights Reserved.
       </Typography>
 
+      <Typography className="H3">
+        * Photos from Unsplash and Videos from Youtube
+      </Typography>
+
       {/* <Button>About</Button> */}
     </div>
   );

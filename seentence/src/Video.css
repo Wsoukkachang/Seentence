@@ -20,3 +20,22 @@
   height: 175px;
   width: 400px;
 }
+
+/* shrink on smaller devices */
+@media only screen and (max-width: 600px) {
+  .video-item.item img {
+    max-width: 70px;
+    max-height: 120px;
+  }
+
+  .video__embed {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+  }
+
+  .video__player {
+    height: 200px;
+    width: 300px;
+  }
+}

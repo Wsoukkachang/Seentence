@@ -41,10 +41,35 @@ body {
 
 /* shrink logo on smaller devices */
 @media only screen and (max-width: 600px) {
+  .makeStyles-toolbar-7 {
+    min-height: 40px;
+    /* align-items: flex-start; */
+    /* padding-top: 8px; */
+    /* padding-bottom: 16px; */
+  }
+
   .logoImg {
     object-fit: cover;
     height: 50px;
     flex-grow: 1;
+  }
+
+  .sentence {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2.5rem !important;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1 !important;
+  }
+
+  .MuiTypography-body1 {
+    font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.00938em;
+    line-height: 1 !important;
   }
 }
 
