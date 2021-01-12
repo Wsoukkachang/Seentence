@@ -7,4 +7,4 @@ A place where you can actually hear and see your sentence!"
  - Used YouTube API for video searches.
  
 # WIP - hosted on Firebase
-https://seentence2.web.app/
+https://seentence.web.app/
