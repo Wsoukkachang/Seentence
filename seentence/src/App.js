@@ -359,9 +359,11 @@ const App = () => {
             </form>
           </div>
         </div>
-        <div>
+        <div className="sentenceSwitchContainer">
           <Typography className="yourSentence">
-            <h3>Your sentence: {search}</h3>
+            <Typography className="sentence">
+              Your sentence: {search}
+            </Typography>
 
             <div>
               <div>
@@ -442,7 +444,7 @@ const App = () => {
               open={open}
               anchorEl={anchorEl}
               anchorOrigin={{
-                vertical: "center",
+                vertical: "top",
                 horizontal: "left",
               }}
               transformOrigin={{

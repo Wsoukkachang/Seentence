@@ -4,17 +4,19 @@
   cursor: pointer;
 }
 
+/* dimension of video tabs */
 .video-item.item img {
-  max-width: 200px;
-  max-height: 250px;
+  max-width: 110px;
+  max-height: 160px;
 }
 
 .video__embed {
   display: flex;
   justify-content: center;
+  padding: 5px;
 }
 
 .video__player {
-  height: 250px;
+  height: 175px;
   width: 400px;
 }

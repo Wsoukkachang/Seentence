@@ -85,8 +85,8 @@ export default function HelpModal() {
             </Typography>
           </CardContent>
           <CardActions>
-            <div class="iconContainer">
-              <div>
+            <div className="iconContainer">
+              <div className="helpSection">
                 <Typography variant="body1" color="textSecondary" component="p">
                   ReactJS - Front End / Web Speech API for speech synthesis.
                 </Typography>
@@ -100,7 +100,7 @@ export default function HelpModal() {
                   </div>
                 </a>
               </div>
-              <div>
+              <div className="helpSection">
                 <Typography variant="body1" color="textSecondary" component="p">
                   Unsplash API - All photos belong to Unsplash.
                 </Typography>
@@ -118,7 +118,7 @@ export default function HelpModal() {
                   </div>
                 </a>
               </div>
-              <div>
+              <div className="helpSection">
                 <Typography variant="body1" color="textSecondary" component="p">
                   YouTube API - All videos belong to Youtube.
                 </Typography>

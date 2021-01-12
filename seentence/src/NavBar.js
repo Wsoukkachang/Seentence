@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   toolbar: {
-    minHeight: 128,
+    minHeight: 40,
     alignItems: "flex-start",
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
@@ -46,13 +46,15 @@ export default function NavBar() {
     <div className={classes.root}>
       <AppBar position="static" className="navBar">
         <Toolbar className={classes.toolbar}>
-          <Typography className={classes.title} variant="h6" Wrap>
+          <Typography className={classes.title} variant="h7" Wrap>
             A visual and auditory learning tool that helps people understand
             what they are reading faster.{" "}
             <p>A place where you can actually hear and see your sentence!"</p>
           </Typography>
-          <HelpModal />
           <SimpleModal />
+          <div>
+            <HelpModal />
+          </div>
         </Toolbar>
       </AppBar>
     </div>

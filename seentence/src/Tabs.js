@@ -17,6 +17,7 @@ const Tabs = ({ word, imageDatabase }) => {
   let wordArray = [];
   let [tabsWord, setTabsWord] = useState("");
   let [imagesDB, setImagesDB] = useState([]);
+  let length = 110;
 
   // this function goes through database and returns an array with just urls thumbs for word
   const checkWord = (word, imageDatabase) => {
@@ -80,26 +81,26 @@ const Tabs = ({ word, imageDatabase }) => {
               <img
                 src={wordArray[0]?.thumb}
                 alt="Image1"
-                width="175"
-                height="175"
+                width={length}
+                height={length}
               ></img>
               <img
                 src={wordArray[1]?.thumb}
                 alt="Image2"
-                width="175"
-                height="175"
+                width={length}
+                height={length}
               ></img>
               <img
                 src={wordArray[2]?.thumb}
                 alt="Image3"
-                width="175"
-                height="175"
+                width={length}
+                height={length}
               ></img>
               <img
                 src={wordArray[3]?.thumb}
                 alt="Image4"
-                width="175"
-                height="175"
+                width={length}
+                height={length}
               ></img>
             </CardContent>
           </Card>
