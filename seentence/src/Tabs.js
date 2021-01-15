@@ -32,7 +32,8 @@ const Tabs = ({ word, imageDatabase }) => {
         }
       }
       wordArray = images;
-      // console.log("This is CHECKWORD wordImages ", wordImages);
+      console.log("This is CHECKWORD wordImages ", wordArray);
+      // checkNoImages(wordArray);
     }
   };
 
@@ -51,10 +52,21 @@ const Tabs = ({ word, imageDatabase }) => {
     // console.log("This is TABS startingIndex ", startingIndex);
   };
 
+  // check array and if no urls present, then will append no image to it
+  // const checkNoImages = (array) => {
+  //   if (array[0] === undefined) {
+  //     for (let i = 0; i <= 3; i++) {
+  //       array.push({ word: word, thumb: noImageUrl });
+  //     }
+  //   }
+  //   console.log("This is CHECKNOIMAGE array ", array);
+  // };
+
   useEffect((word, wordDatabase, startingIndex) => {
     // code to run on component mount
     setTabsWord(word);
     setImagesDB(wordDatabase);
+    // checkNoImages(images);
 
     // console.log("This is TABS useEffect word", word);
     // console.log("This is TABS useEffect tabsWord)", tabsWord);

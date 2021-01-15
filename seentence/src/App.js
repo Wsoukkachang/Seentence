@@ -282,6 +282,7 @@ const App = () => {
     let images = [];
     let sortedImages = [];
     let wordsSplice = search.split(" ");
+    let noImageUrl = "https://i.imgur.com/2oH1OIQ.png";
     setWordsArray(wordsSplice);
 
     console.log("This is in getImageUrls if = wordsSplice", wordsSplice);
@@ -290,10 +291,17 @@ const App = () => {
 
     for (let i = 0; i <= wordDatabase.length - 1; i++) {
       for (let j = 0; j <= 3; j++) {
-        images.push({
-          word: wordDatabase[i].term,
-          thumb: wordDatabase[i].results[j].urls.thumb,
-        });
+        if (wordDatabase[i]?.results[j]?.urls.thumb === undefined) {
+          images.push({
+            word: wordDatabase[i].term,
+            thumb: noImageUrl,
+          });
+        } else {
+          images.push({
+            word: wordDatabase[i].term,
+            thumb: wordDatabase[i].results[j].urls.thumb,
+          });
+        }
       }
     }
 
