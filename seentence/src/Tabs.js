@@ -91,24 +91,28 @@ const Tabs = ({ word, imageDatabase }) => {
                 <h1>{word}</h1>
               </div>
               <img
+                className="tab__img"
                 src={wordArray[0]?.thumb}
                 alt="Image1"
                 width={length}
                 height={length}
               ></img>
               <img
+                className="tab__img"
                 src={wordArray[1]?.thumb}
                 alt="Image2"
                 width={length}
                 height={length}
               ></img>
               <img
+                className="tab__img"
                 src={wordArray[2]?.thumb}
                 alt="Image3"
                 width={length}
                 height={length}
               ></img>
               <img
+                className="tab__img"
                 src={wordArray[3]?.thumb}
                 alt="Image4"
                 width={length}

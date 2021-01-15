@@ -15,6 +15,11 @@
   justify-content: center;
 }
 
+.tab__img {
+  object-fit: cover;
+  overflow: hidden;
+}
+
 .tab__card {
   display: flex !important;
   flex-direction: column !important;
