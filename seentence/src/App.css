@@ -6,11 +6,17 @@
 body {
   background-color: #f2eee2;
 }
+
+body > #root > div {
+  height: 100vh;
+}
+
 .app {
   display: flex;
-  height: 100%;
+  height: 100vh;
   justify-content: space-evenly;
   padding: 20px;
+  flex-grow: 1;
 }
 
 .marginContainer {
@@ -20,6 +26,7 @@ body {
   align-content: space-between;
   justify-content: space-evenly;
   padding: 20px;
+  flex-grow: 2;
 }
 
 .header {
@@ -71,6 +78,15 @@ body {
     letter-spacing: 0.00938em;
     line-height: 1 !important;
   }
+}
+
+.tabsContainer {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+  /* align-items: stretch; */
+  padding: 5px;
+  flex-grow: 2;
 }
 
 /* shrink tabs on smaller devices */
