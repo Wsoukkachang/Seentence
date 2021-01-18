@@ -9,8 +9,9 @@ import axios from "axios";
 import React, { setState, useState, useEffect } from "react";
 import "./Tabs.css";
 
-const Tabs = ({ word, imageDatabase }) => {
+const Tabs = ({ word, imageDatabase, id }) => {
   // console.log("This is TABS word", word);
+  // console.log("This is TABS id ", id);
   // console.log("This is TABS imageDB ", imageDatabase);
   let [startingIndex, setStartingIndex] = useState(0);
   let [wordImages, setWordImages] = useState([]);
@@ -32,7 +33,7 @@ const Tabs = ({ word, imageDatabase }) => {
         }
       }
       wordArray = images;
-      console.log("This is CHECKWORD wordImages ", wordArray);
+      // console.log("This is CHECKWORD wordImages ", wordArray);
       // checkNoImages(wordArray);
     }
   };
@@ -84,7 +85,7 @@ const Tabs = ({ word, imageDatabase }) => {
       {imageDatabase === undefined ? (
         <div></div>
       ) : (
-        <CardActionArea className="tab__card">
+        <CardActionArea className="tab__card" id={id}>
           <Card variant="outlined">
             <CardContent className="tab__content">
               <div>

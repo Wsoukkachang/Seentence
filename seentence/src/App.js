@@ -1,6 +1,6 @@
 import axios from "axios";
 import youtube from "./apis/youtube";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NavBar from "./NavBar";
 import styled from "styled-components";
 import {
@@ -10,6 +10,7 @@ import {
   Typography,
   TextField,
   Button,
+  CardActionArea,
 } from "@material-ui/core";
 import Tabs from "./Tabs";
 import Footer from "./Footer";
@@ -17,6 +18,7 @@ import Footer from "./Footer";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import "./App.css";
+import PlayCircleOutlineTwoToneIcon from "@material-ui/icons/PlayCircleOutlineTwoTone";
 
 import Popover from "@material-ui/core/Popover";
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,6 +33,9 @@ const App = () => {
 
   let spliceValue = [];
   let wordDatabase = [];
+
+  const tabsClicked = React.useRef(null);
+
   const [search, setInput] = useState("");
   const [wordSize, setWordSize] = useState(0);
   const [dataLength, setDataLength] = useState(-1);
@@ -341,8 +346,19 @@ const App = () => {
     // console.log("This is sV after", spliceValue);
   };
 
+  // when everything is ready to render (mainly for tabs component)
   const isReady = (wordSize, dataLength, tabsRender) => {
     return wordSize === dataLength && tabsRender === true;
+  };
+
+  //simulate clicks for play button
+  const handlePlayClick = () => {
+    console.log("This is handlePlayClick");
+    for (let i = 0; i < wordsArray.length; i++) {
+      var link = document.getElementById(i.toString());
+      // console.log("This is link", link);
+      link.click();
+    }
   };
 
   return (
@@ -350,12 +366,25 @@ const App = () => {
       <NavBar position="fixed" />
       <div className="marginContainer">
         <div className="header">
-          <div>
-            <img
-              className="logoImg"
-              src="https://i.imgur.com/RpnCtls.png"
-            ></img>
-          </div>
+          {isReady(wordSize, dataLength, tabsRender) === true &&
+          videoReady === false ? (
+            <div className="playContainer">
+              <CardActionArea onClick={handlePlayClick}>
+                <PlayCircleOutlineTwoToneIcon
+                  color="secondary"
+                  className="playButton"
+                />
+              </CardActionArea>
+            </div>
+          ) : (
+            <div>
+              <img
+                className="logoImg"
+                src="https://i.imgur.com/RpnCtls.png"
+              ></img>
+            </div>
+          )}
+
           <div>
             <form onSubmit={handleSubmit} className="searchColumn">
               <label>
@@ -484,7 +513,12 @@ const App = () => {
           >
             {wordsArray.map((word, i) => (
               <div key={i} onClick={() => say(word)}>
-                <Tabs key={i} word={word} imageDatabase={dB} />
+                <Tabs
+                  key={i}
+                  word={word}
+                  imageDatabase={dB}
+                  id={i.toString()}
+                />
               </div>
             ))}
             <Popover
