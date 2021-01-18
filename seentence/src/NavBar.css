@@ -6,6 +6,34 @@
   padding: 10px;
 }
 
+.navShrinkButton {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding: 0px !important;
+}
+
+.iconShrink {
+  height: 10px !important;
+  padding: 0px !important;
+}
+
+.iconShrinkIcon {
+  height: 40px !important;
+  padding: 0px !important;
+}
+
+.MuiSvgIcon-colorPrimary {
+  color: black !important;
+}
+.MuiIconButton-colorPrimary {
+  color: black !important;
+}
+.MuiIconButton-root {
+  outline-color: 0px solid transparent !important;
+}
+
 @media only screen and (max-width: 600px) {
   .makeStyles-toolbar-7 {
     min-height: 40px;

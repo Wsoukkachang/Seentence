@@ -25,7 +25,7 @@ body > #root > div {
   align-items: center;
   align-content: space-between;
   justify-content: space-evenly;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
   flex-grow: 2;
 }
 

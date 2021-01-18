@@ -8,8 +8,8 @@ export default axios.create({
     part: "snippet",
     maxResults: 5,
     type: "video",
-    safeSearch: "strict",
-    order: "viewCount",
+    safeSearch: "moderate",
+    order: "relevance",
     key: KEY,
   },
 });

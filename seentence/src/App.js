@@ -88,19 +88,24 @@ const App = () => {
   useEffect(() => {
     const voices = synthRef.current
       .getVoices()
-      .filter((voice) => !voice.name.includes("Google"));
-    // console.log(voices);
+      .filter((voice) => voice.name.includes("Google UK English"));
+    // console.log("This is voices", voices);
 
-    const filteredA = voices.filter(
-      (voice) => voice.lang.substr(0, 2) === "en"
-    );
-    setLangAVoices(filteredA);
-    // console.log(voiceState);
+    // let filteredA = voices.filter(
+    //   (voice) => voice.lang.substr(0, 2) === "en-GB"
+    // );
+
+    // console.log("This is filteredA", filteredA);
+    setLangAVoices(voices);
+
+    // console.log("This is langAVoice", langAVoice);
 
     if (voiceState.female === true && voiceState.male === false) {
-      setLangAVoice(filteredA[1]);
+      setLangAVoice(voices[0]);
+      // console.log("This is voice 1");
     } else {
-      setLangAVoice(filteredA[0]);
+      setLangAVoice(voices[1]);
+      // console.log("This is voice 0");
     }
   }, []);
 
@@ -198,18 +203,22 @@ const App = () => {
 
     const voices = synthRef.current
       .getVoices()
-      .filter((voice) => !voice.name.includes("Google"));
+      .filter((voice) => voice.name.includes("Google UK English"));
+    // console.log("This is voices", voices);
 
-    const filteredA = voices.filter(
-      (voice) => voice.lang.substr(0, 2) === "en"
-    );
-    setLangAVoices(filteredA);
+    // const filteredA = voices.filter(
+    //   (voice) => voice.lang.substr(0, 2) === "en"
+    // );
+    // setLangAVoices(filteredA);
+    setLangAVoices(voices);
 
     // switch to Male if clicked
     if (voiceState.female === true && voiceState.male === false) {
-      setLangAVoice(filteredA[0]);
+      setLangAVoice(voices[1]);
+      // console.log("This is voice 0");
     } else {
-      setLangAVoice(filteredA[1]);
+      setLangAVoice(voices[0]);
+      // console.log("This is voice 1");
     }
   };
 
@@ -338,7 +347,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar position="fixed" />
       <div className="marginContainer">
         <div className="header">
           <div>
