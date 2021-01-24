@@ -89,6 +89,20 @@ const App = () => {
   const open = Boolean(anchorEl);
   // ------------------------------
 
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0lvzRhjxlYbOgn0_k7Yq1D5kAZ3V0C-E",
+    authDomain: "seentence.firebaseapp.com",
+    databaseURL: "https://seentence-default-rtdb.firebaseio.com",
+    projectId: "seentence",
+    storageBucket: "seentence.appspot.com",
+    messagingSenderId: "594365335754",
+    appId: "1:594365335754:web:9e44f08246b506cd73cc33",
+    measurementId: "G-TPEXW42HD1",
+  };
+
+  // --------------------------------
+
   // onMount, set voice to female
   useEffect(() => {
     const voices = synthRef.current
@@ -173,7 +187,7 @@ const App = () => {
     const response = await axios.get("https://api.unsplash.com/search/photos", {
       params: { query: term },
       headers: {
-        Authorization: "Client-ID s_cKK607sSYUL4uKDvlhw6wmMdyZh6M6bJ8gRMB0rI4",
+        Authorization: "Client-ID JgkMGm8KUELf5gRzAN_n6IA__nmeET1Cx5ZSHTBH9PY",
       },
     });
 
@@ -357,6 +371,18 @@ const App = () => {
     for (let i = 0; i < wordsArray.length; i++) {
       var link = document.getElementById(i.toString());
       // console.log("This is link", link);
+
+      // link.addEventListener("mouseover", function (event) {
+      //   console.log("Event triggered");
+      // });
+
+      // var event = new MouseEvent("mouseover", {
+      //   "view": window,
+      //   "bubbles": true,
+      //   cancelable: true,
+      // });
+
+      // link.dispatchEvent(event);
       link.click();
     }
   };
