@@ -327,7 +327,7 @@ const App = () => {
         } else {
           images.push({
             word: wordDatabase[i].term,
-            thumb: wordDatabase[i].results[j].urls.thumb,
+            thumb: wordDatabase[i].results[j].urls.small,
           });
         }
       }

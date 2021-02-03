@@ -111,33 +111,6 @@ body > #root > div {
   flex-grow: 2;
 }
 
-/* shrink tabs on smaller devices */
-@media only screen and (max-height: 600px) {
-  /* .logoImg {
-    object-fit: cover;
-    height: 50px;
-    flex-grow: 1;
-  } */
-  .playContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: space-between;
-    justify-content: space-evenly;
-    /* padding: 2px; */
-    flex-grow: 0.5;
-    /* border: 1px solid black; */
-    /* width: 100%; */
-    width: 80% !important;
-  }
-
-  .playButton {
-    height: 60px !important;
-    width: 100% !important;
-    /* margin-top: 10px; */
-  }
-}
-
 .search-bar input {
   padding-left: 35px;
   color: grey;
@@ -211,4 +184,42 @@ body > #root > div {
   justify-content: center;
   padding: 20px;
   flex-grow: 2;
+}
+
+/* shrink tabs on smaller devices */
+@media only screen and (max-height: 600px) {
+  /* .logoImg {
+    object-fit: cover;
+    height: 50px;
+    flex-grow: 1;
+  } */
+  .playContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+    justify-content: space-evenly;
+    /* padding: 2px; */
+    flex-grow: 0.5;
+    /* border: 1px solid black; */
+    /* width: 100%; */
+    width: 80% !important;
+  }
+
+  .playButton {
+    height: 60px !important;
+    width: 100% !important;
+    /* margin-top: 10px; */
+  }
+}
+
+@media only screen and (min-height: 1000px) and (min-width: 1000px) {
+  .tabsContainer {
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+    /* align-items: stretch; */
+    padding: 5px;
+    flex-grow: 2;
+  }
 }

@@ -39,3 +39,21 @@
     width: 300px;
   }
 }
+
+@media only screen and (min-height: 1000px) and (min-width: 1000px) {
+  .video-item.item img {
+    max-width: 110px;
+    max-height: 160px;
+  }
+
+  .video__embed {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+  }
+
+  .video__player {
+    height: 400px !important;
+    width: 800px !important;
+  }
+}
