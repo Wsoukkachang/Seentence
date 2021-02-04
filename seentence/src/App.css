@@ -169,6 +169,11 @@ body > #root > div {
   justify-content: center;
   margin: 20px;
 }
+.rightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .MuiFormLabel-root.Mui-focused {
   color: red !important;

@@ -19,6 +19,7 @@ import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import "./App.css";
 import PlayCircleOutlineTwoToneIcon from "@material-ui/icons/PlayCircleOutlineTwoTone";
+import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 
 import Popover from "@material-ui/core/Popover";
 import { makeStyles } from "@material-ui/core/styles";
@@ -77,6 +78,7 @@ const App = () => {
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElSearch, setAnchorElSearch] = React.useState(null);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,7 +88,16 @@ const App = () => {
     setAnchorEl(null);
   };
 
+  const handlePopoverOpenSearch = (event) => {
+    setAnchorElSearch(event.currentTarget);
+  };
+
+  const handlePopoverCloseSearch = () => {
+    setAnchorElSearch(null);
+  };
+
   const open = Boolean(anchorEl);
+  const openSearch = Boolean(anchorElSearch);
   // ------------------------------
 
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -163,8 +174,22 @@ const App = () => {
     // setWordCounter(0); // resets counter for each new search
     wordDatabase = []; // resets database for each new search
 
-    const searchSplice = search.split(" ");
-    allWords = search.split(" "); // splices search result to individual elements (word)
+    let searchSplice = [];
+    let stringy = "";
+
+    //logic for search if it contains "," or not
+
+    if (search.includes(",")) {
+      searchSplice = search.split(",");
+      allWords = search.split(","); // splices search result to individual elements (word)
+      stringy = ",";
+    } else {
+      searchSplice = search.split(" ");
+      allWords = search.split(" "); // splices search result to individual elements (word)
+      stringy = " ";
+    }
+
+    allWords = search.split({ stringy }); // splices search result to individual elements (word)
     spliceValue = searchSplice;
 
     console.log("THIS IS searchValue", search);
@@ -261,9 +286,17 @@ const App = () => {
 
   const checkCounter = (termCount, tabsRender, wordDatabase) => {
     console.log("This is in checkCounter", search);
-    let checkCounterWords = search.split(" ").length * 4;
+    let checkCounterWords = 0;
     // console.log("This is in checkCounter wc", wordCounter);
     console.log("This is in checkCounter ccw", checkCounterWords);
+
+    //logic for search if it contains "," or not
+
+    if (search.includes(",")) {
+      checkCounterWords = search.split(",").length * 4;
+    } else {
+      checkCounterWords = search.split(" ").length * 4;
+    }
 
     if (termCount > 0 && termCount * 4 === checkCounterWords) {
       getImageUrls(wordDatabase, spliceValue);
@@ -276,9 +309,9 @@ const App = () => {
       );
       console.log("This is in checkCounter if = allWords", allWords);
 
+      checkAll(imageDatabase, allWords);
       console.log("This is in checkCounter if RAN TABS RENDER ", tabsRender);
 
-      checkAll(imageDatabase, allWords);
       // console.log("This is sV after", spliceValue);
       // setTimeout(4000);
     } else {
@@ -309,9 +342,20 @@ const App = () => {
   const getImageUrls = (wordDatabase, spliceValue) => {
     let images = [];
     let sortedImages = [];
-    let wordsSplice = search.split(" ");
+    let wordsSplice = [];
     let noImageUrl = "https://i.imgur.com/2oH1OIQ.png";
-    setWordsArray(wordsSplice);
+
+    //logic for search if it contains "," or not
+
+    if (search.includes(",")) {
+      wordsSplice = [];
+      wordsSplice = search.split(",");
+      setWordsArray(wordsSplice);
+    } else {
+      wordsSplice = [];
+      wordsSplice = search.split(" ");
+      setWordsArray(wordsSplice);
+    }
 
     console.log("This is in getImageUrls if = wordsSplice", wordsSplice);
 
@@ -411,7 +455,7 @@ const App = () => {
             </div>
           )}
 
-          <div>
+          <div className="rightContainer">
             <form onSubmit={handleSubmit} className="searchColumn">
               <label>
                 <TextField
@@ -425,12 +469,46 @@ const App = () => {
                   }}
                 />
               </label>
+
               <Button variant="contained" type="submit" value="Submit">
                 Submit
               </Button>
             </form>
+
+            <div>
+              <ContactSupportIcon
+                onMouseEnter={handlePopoverOpenSearch}
+                onMouseLeave={handlePopoverCloseSearch}
+              ></ContactSupportIcon>
+              <Popover
+                id="mouse-over-popover"
+                className={classes.popover}
+                classes={{
+                  paper: classes.paper,
+                }}
+                open={openSearch}
+                anchorEl={anchorElSearch}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                onClose={handlePopoverCloseSearch}
+                disableRestoreFocus
+              >
+                <Typography>
+                  * Cool tip: Use commas in between multiple words to be more
+                  specific with search.
+                  <br /> Example: The children, are, laughing. *
+                </Typography>
+              </Popover>
+            </div>
           </div>
         </div>
+
         <div className="sentenceSwitchContainer">
           <Typography className="yourSentence">
             <Typography className="sentence">
