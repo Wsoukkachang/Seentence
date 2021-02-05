@@ -34,10 +34,13 @@ const App = () => {
 
   let spliceValue = [];
   let wordDatabase = [];
+  let refinedSearch = "";
 
   const tabsClicked = React.useRef(null);
 
   const [search, setInput] = useState("");
+  // const [refinedSearch, setRefinedSearch] = useState("");
+
   const [wordSize, setWordSize] = useState(0);
   const [dataLength, setDataLength] = useState(-1);
   const [tabsRender, setTabsRender] = useState(false);
@@ -177,23 +180,35 @@ const App = () => {
     let searchSplice = [];
     let stringy = "";
 
+    let initSearch = search
+      .replace(/[./#!$%^&*;:{}=\-_`~()]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    let finalSearch = initSearch.replace(" ,", ",");
+
+    console.log("THIS IS FINAL", finalSearch);
+
+    refinedSearch = finalSearch;
+    console.log("THIS IS REFINED", refinedSearch);
+
     //logic for search if it contains "," or not
 
-    if (search.includes(",")) {
-      searchSplice = search.split(",");
-      allWords = search.split(","); // splices search result to individual elements (word)
+    if (refinedSearch.includes(",")) {
+      searchSplice = refinedSearch.split(",");
+      allWords = refinedSearch.split(","); // splices search result to individual elements (word)
       stringy = ",";
     } else {
-      searchSplice = search.split(" ");
-      allWords = search.split(" "); // splices search result to individual elements (word)
+      searchSplice = refinedSearch.split(" ");
+      allWords = refinedSearch.split(" "); // splices search result to individual elements (word)
       stringy = " ";
     }
 
-    allWords = search.split({ stringy }); // splices search result to individual elements (word)
+    allWords = refinedSearch.split({ stringy }); // splices search result to individual elements (word)
     spliceValue = searchSplice;
 
-    console.log("THIS IS searchValue", search);
-    handleVideoSubmit(search);
+    console.log("THIS IS searchValue", refinedSearch);
+    handleVideoSubmit(refinedSearch);
     spliceSentence(searchSplice);
 
     // alert(`Submitting search: ${search}`);
@@ -285,14 +300,14 @@ const App = () => {
   };
 
   const checkCounter = (termCount, tabsRender, wordDatabase) => {
-    console.log("This is in checkCounter", search);
+    console.log("This is in checkCounter", refinedSearch);
     let checkCounterWords = 0;
     // console.log("This is in checkCounter wc", wordCounter);
     console.log("This is in checkCounter ccw", checkCounterWords);
 
     //logic for search if it contains "," or not
 
-    if (search.includes(",")) {
+    if (refinedSearch.includes(",")) {
       checkCounterWords = search.split(",").length * 4;
     } else {
       checkCounterWords = search.split(" ").length * 4;
@@ -347,13 +362,13 @@ const App = () => {
 
     //logic for search if it contains "," or not
 
-    if (search.includes(",")) {
+    if (refinedSearch.includes(",")) {
       wordsSplice = [];
-      wordsSplice = search.split(",");
+      wordsSplice = refinedSearch.split(",");
       setWordsArray(wordsSplice);
     } else {
       wordsSplice = [];
-      wordsSplice = search.split(" ");
+      wordsSplice = refinedSearch.split(" ");
       setWordsArray(wordsSplice);
     }
 
@@ -512,7 +527,7 @@ const App = () => {
         <div className="sentenceSwitchContainer">
           <Typography className="yourSentence">
             <Typography className="sentence">
-              Your sentence: {search}
+              Your sentence: {allWords}
             </Typography>
 
             <div>
