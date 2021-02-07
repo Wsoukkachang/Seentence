@@ -103,12 +103,15 @@ body > #root > div {
 }
 
 .tabsContainer {
+  scroll-behavior: smooth;
   display: flex;
   justify-content: space-evenly;
-  width: 80%;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 100% !important;
   /* align-items: stretch; */
   padding: 5px;
-  flex-grow: 2;
+  /* flex-grow: 2; */
 }
 
 .search-bar input {
@@ -117,7 +120,7 @@ body > #root > div {
   box-shadow: 2px 3px 28px 1px rgba(0, 0, 0, 0.1);
   border: 0px solid transparent;
   border-radius: 5px;
-  width: 30vw;
+  width: 40vw;
   height: 50px;
   font-size: 16px;
 }
@@ -135,7 +138,7 @@ body > #root > div {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 2.5rem !important;
+  font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
 }
@@ -153,7 +156,7 @@ body > #root > div {
 .tabsContainer {
   display: flex;
   justify-content: space-evenly;
-  width: 80%;
+  width: 100%;
   /* align-items: stretch; */
   padding: 5px;
 }
@@ -187,17 +190,30 @@ body > #root > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
   flex-grow: 2;
 }
 
 /* shrink tabs on smaller devices */
-@media only screen and (max-height: 600px) {
+@media only screen and (max-width: 600px) {
   /* .logoImg {
     object-fit: cover;
     height: 50px;
     flex-grow: 1;
   } */
+
+  .sentence {
+    font-size: 1rem !important;
+  }
+
+  .search-bar input {
+    width: 50vw !important;
+  }
+
+  .searchColumn {
+    padding: 10px !important;
+  }
+
   .playContainer {
     display: flex;
     flex-direction: column;
@@ -216,15 +232,39 @@ body > #root > div {
     width: 100% !important;
     /* margin-top: 10px; */
   }
+
+  .tabsContainer {
+    scroll-behavior: smooth;
+    display: flex;
+    justify-content: space-around;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100% !important;
+    /* align-items: stretch; */
+    padding: 5px;
+    /* flex-grow: 2; */
+  }
 }
 
 @media only screen and (min-height: 1000px) and (min-width: 1000px) {
   .tabsContainer {
     display: flex;
     justify-content: space-evenly;
-    width: 80%;
+    width: 100%;
     /* align-items: stretch; */
     padding: 5px;
-    flex-grow: 2;
+    /* flex-grow: 2; */
+  }
+
+  .sentence {
+    font-size: 2rem !important;
+  }
+
+  .search-bar input {
+    width: 50vw !important;
+  }
+
+  .searchColumn {
+    padding: 10px !important;
   }
 }

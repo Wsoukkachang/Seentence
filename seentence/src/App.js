@@ -35,11 +35,13 @@ const App = () => {
   let spliceValue = [];
   let wordDatabase = [];
   let refinedSearch = "";
+  // let displayText = "";
 
   const tabsClicked = React.useRef(null);
 
   const [search, setInput] = useState("");
   // const [refinedSearch, setRefinedSearch] = useState("");
+  const [displaySearch, setDisplaySearch] = useState("");
 
   const [wordSize, setWordSize] = useState(0);
   const [dataLength, setDataLength] = useState(-1);
@@ -181,7 +183,7 @@ const App = () => {
     let stringy = "";
 
     let initSearch = search
-      .replace(/[./#!$%^&*;:{}=\-_`~()]/g, "")
+      .replace(/[./#!$%^&*;:{}=\-_`~()?]/g, "")
       .replace(/\s+/g, " ")
       .trim();
 
@@ -205,6 +207,20 @@ const App = () => {
     }
 
     allWords = refinedSearch.split({ stringy }); // splices search result to individual elements (word)
+
+    console.log("ALLWORDS", allWords);
+
+    let displayText = allWords.toString();
+    // console.log("DisplayText INCLUDES ,", displayText);
+
+    if (displayText.includes(",")) {
+      let finalText = displayText.replace(/,/g, "");
+      console.log("ALLWORDS FINAL", finalText);
+      setDisplaySearch(finalText);
+    } else {
+      setDisplaySearch(allWords);
+    }
+
     spliceValue = searchSplice;
 
     console.log("THIS IS searchValue", refinedSearch);
@@ -527,7 +543,7 @@ const App = () => {
         <div className="sentenceSwitchContainer">
           <Typography className="yourSentence">
             <Typography className="sentence">
-              Your sentence: {allWords}
+              Your sentence: {displaySearch}
             </Typography>
 
             <div>
@@ -640,7 +656,7 @@ const App = () => {
                 />
               </div>
             ))}
-            <Popover
+            {/* <Popover
               id="mouse-over-popover"
               className={classes.popover}
               classes={{
@@ -660,7 +676,7 @@ const App = () => {
               disableRestoreFocus
             >
               <Typography>Click on the tabs to hear them</Typography>
-            </Popover>
+            </Popover> */}
           </div>
         )}
 
